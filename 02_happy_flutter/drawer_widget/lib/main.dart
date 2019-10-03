@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './halaman.dart';
 
 void main() => runApp(new MaterialApp(home: MyApp()));
 
@@ -42,10 +43,12 @@ class _MyAppState extends State<MyApp> {
             new ListTile(
               title: new Text("Home Page"),
               trailing: new Icon(Icons.home),
+              onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new pagebaru("Welcome to Home Page"))),
             ),
             new ListTile(
               title: new Text("List Laptop"),
               trailing: new Icon(Icons.laptop),
+              onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new pagebaru("Welcome to List Product Page"))),
             ),
             new ListTile(
               title: new Text("Close"),
