@@ -26,7 +26,7 @@ class _DetailPageBeritaState extends State<DetailPageBerita> {
             padding: const EdgeInsets.all(32.0),
             child: new Row(
               children: <Widget>[
-                new Expanded(child: new Column(
+                  new Expanded(child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     new Container(
