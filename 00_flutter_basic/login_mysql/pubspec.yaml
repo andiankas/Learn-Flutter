@@ -1,4 +1,4 @@
-name: rx_login
+name: login_mysql
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.22.3
+  http: ^0.12.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
