@@ -1,8 +1,9 @@
+import 'package:crud_phpmysql_pegawai/floatingActionButton.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'detail.dart';
-import 'addData.dart';
+
 import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
@@ -31,19 +32,7 @@ class _MyAppState extends State<MyApp> {
           title: Text("Data Pegawai"),
           backgroundColor: Colors.blue[700],
         ),
-        floatingActionButton: new FloatingActionButton(
-          backgroundColor: Colors.blue[700],
-          child: new Icon(
-            Icons.add,
-            color: Colors.white
-          ),
-          onPressed: () => Navigator.of(context).push(
-            // navigation route
-            MaterialPageRoute(
-              builder: (BuildContext context) => AddData()
-            )
-          ),
-        ),
+        floatingActionButton: FloatingButton(),
         body: new FutureBuilder<List>(
           future: getData(), // memanggil method getData
           builder: (context, snapshot){
