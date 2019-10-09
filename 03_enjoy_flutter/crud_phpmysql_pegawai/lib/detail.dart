@@ -15,6 +15,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
 
+  // function delete data
   void deleteData() {
     var url = "http://192.168.1.146/xdev/xlearn/flutter_pegawai/deleteData.php";
     http.post(url, body: {'id':widget.list[widget.index]['id']});
@@ -30,23 +31,23 @@ class _DetailState extends State<Detail> {
           onPressed: (){
             print("deleted clicked");
             deleteData();
-            Navigator.of(context).push(
-              new MaterialPageRoute(
-                builder: (BuildContext context) => MyApp()
-              ),
-            );
+            Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new MyApp()
+            ));
           },
         ),
         new RaisedButton(
           child: new Text("Cancel",style: TextStyle(color: Colors.black)),
           color: Colors.red,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ],
     );
     showDialog(context: context,child: alertDialog);
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
