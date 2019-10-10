@@ -17,8 +17,18 @@ class _DetailState extends State<Detail> {
 
   // function delete data
   void deleteData() {
-    var url = "http://192.168.1.146/xdev/xlearn/flutter_pegawai/deleteData.php";
+    var url = "http://192.168.43.35/xdev/xlearn/flutter_pegawai/deleteData.php";
     http.post(url, body: {'id':widget.list[widget.index]['id']});
+  }
+
+  void _dismissDialog(context) {
+    Navigator.pop(context);
+  }
+
+  void _pushToList(){
+    Navigator.of(context).push(new MaterialPageRoute(
+      builder: (BuildContext context) => new MyApp()
+    ));
   }
 
   void confirm(){
@@ -31,16 +41,14 @@ class _DetailState extends State<Detail> {
           onPressed: (){
             print("deleted clicked");
             deleteData();
-            Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new MyApp()
-            ));
+            _pushToList();
           },
         ),
         new RaisedButton(
           child: new Text("Cancel",style: TextStyle(color: Colors.black)),
           color: Colors.red,
           onPressed: () {
-            Navigator.of(context).pop();
+           _dismissDialog(context);
           },
         ),
       ],

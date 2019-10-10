@@ -16,11 +16,11 @@ class _AddDataState extends State<AddData> {
   TextEditingController gajiController = new TextEditingController();
 
   void addData(){
-    var url = "http://192.168.1.146/xdev/xlearn/flutter_pegawai/addData.php";
+    var url = "http://192.168.43.35/xdev/xlearn/flutter_pegawai/addData.php";
     http.post(url,body: {
-      "namaPegawai" : namaController.text,
+      "namaPegawai"   : namaController.text,
       "posisiPegawai" : posisiController.text,
-      "gajiPegawai" : gajiController.text,
+      "gajiPegawai"   : gajiController.text,
     });
   }
 
@@ -62,6 +62,7 @@ class _AddDataState extends State<AddData> {
                 new Padding(padding: new EdgeInsets.all(5.0),),
                 new TextField(
                   controller: gajiController,
+                  keyboardType: TextInputType.number,
                   decoration: new InputDecoration(
                     hintText: "Input Gaji Pegawai",
                     labelText: "Gaji Pegawai",

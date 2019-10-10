@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   // membuat sebuah method yang digunakan untuk mengambil data dari server
 
   Future<List> getData() async{
-    final response = await http.get("http://192.168.1.146/xdev/xlearn/flutter_pegawai/getPegawai.php");
+    final response = await http.get("http://192.168.43.35/xdev/xlearn/flutter_pegawai/getPegawai.php");
     return json.decode(response.body); // data yang diambil dari server kemudian di decode
   }
 
