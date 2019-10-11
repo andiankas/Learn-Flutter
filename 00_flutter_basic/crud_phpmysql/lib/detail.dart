@@ -18,12 +18,7 @@ class _DetailState extends State<Detail> {
       appBar: AppBar(
         title: new Text("${widget.list[widget.index]['item_name']}"),
       ),
-      floatingActionButton: new FloatingActionButton(
-        child: new Icon(Icons.add),
-        onPressed: (){
-          
-        },
-      ),
+      
       body: new Container(
         height: 250.0,
         padding: const EdgeInsets.all(20.0),
