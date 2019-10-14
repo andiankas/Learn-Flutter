@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:async';
 import 'package:async/async.dart';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image/image.dart' as Img;
 
 class Home extends StatefulWidget {
   @override
@@ -14,12 +16,23 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   File _image;
+  TextEditingController cTitle = new TextEditingController();
 
-  Future getImageGallery() async  {
+  Future getImageGallery() async {
     var imageFile  = await ImagePicker.pickImage(source: ImageSource.gallery);
-    
+
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path; 
+
+    String title = cTitle.text;
+    Img.Image image = Img.decodeImage(imageFile.readAsBytesSync());
+    Img.Image smallerImg = Img.copyResize(image, width: 224, height: 224);
+
+    var compressImg = new File("$path/image_$title.jpg")
+    ..writeAsBytesSync(Img.encodeJpg(smallerImg, quality: 85));
+
     setState(() {
-      _image = imageFile;
+      _image = compressImg;
     });
   }
 
@@ -30,24 +43,24 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future upload(File imageFile) async  {
+  Future upload(File imageFile) async {
     //  menangkap gambarnya
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    var length = await imageFile.length();
+    var length = await imageFile.length(); 
     var uri = Uri.parse("http://192.168.43.35/xdev/xlearn/flutter_img_camera_gallery/upload.php");
 
     var request = new http.MultipartRequest("POST", uri);
 
     var multipartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
-
+    request.fields['title'] = cTitle.text;
     request.files.add(multipartFile);
 
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      print("img upload");
+      print("IMG Uploaded");
     }else{
-      print("upload failed");
+      print("Upload FAILED!");
     }
   }
   @override
@@ -67,7 +80,13 @@ class _HomeState extends State<Home> {
             ? new Text("No Img Selected") 
             : new Image.file( _image ), 
           ),
-         
+          TextField(
+            controller: cTitle,
+            decoration: new InputDecoration(
+              hintText: "name",
+              labelText: "Name"
+            ),
+          ),
           Row(
             children: <Widget>[
               RaisedButton(
@@ -79,7 +98,7 @@ class _HomeState extends State<Home> {
                 child: Icon(Icons.camera_alt),
                 onPressed: getImageCamera,
               ),
-              Padding(padding: const EdgeInsets.all(10.0),),
+              
               Expanded(child: Container() ),
               RaisedButton(
                 child: Text("Upload"),
