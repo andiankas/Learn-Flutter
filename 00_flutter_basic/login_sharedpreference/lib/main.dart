@@ -56,10 +56,14 @@ class _LoginState extends State<Login> {
     final dataLogin = jsonDecode(response.body);
     int value = dataLogin['value'];
     String message = dataLogin['message'];
+    String usernameAPI = dataLogin['username'];
+    String namaAPI = dataLogin['nama'];
+    String levelAPI = dataLogin['level'];
+    String statusAPI = dataLogin['status'];
     if (value==200) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
-        savePref(value);
+        savePref(value, namaAPI, usernameAPI);
       });
       print(message);
     } else {
@@ -72,10 +76,12 @@ class _LoginState extends State<Login> {
   }
 
   // set sharedPreferences
-  savePref(int value) async {
+  savePref(int value, String nama, String username) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt("value", value);
+      preferences.setString("nama", nama);
+      preferences.setString("username", username);
       preferences.commit();
     });
   }
@@ -156,7 +162,11 @@ class _LoginState extends State<Login> {
                 Padding(padding: const EdgeInsets.all(20)),
                 InkWell(
                   child: Text("Create a new account", textAlign: TextAlign.center,),
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Register()
+                    ));
+                  },
                 ),
               ],
             ),
@@ -168,6 +178,114 @@ class _LoginState extends State<Login> {
         break;
     }
     
+  }
+}
+
+class Register extends StatefulWidget {
+  Register({Key key}) : super(key: key);
+
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  String password,username,nama;
+  final _key = new GlobalKey<FormState>();
+
+  bool _secureText = true;
+
+  // show hide password
+  showHide(){
+    setState(() {
+      _secureText = !_secureText;
+    });
+  }
+
+  // check
+  check(){
+    final form = _key.currentState;
+    if (form.validate()) {
+      form.save();
+      signup();
+    }
+  }
+
+  signup() async {
+    final response = await http.post("http://192.168.43.35/xdev/xlearn/flutter_login_sharedpreference/api/register.php", body: {
+      "nama" : nama,
+      "username" : username,
+      "password" : password
+    });
+    final dataRegister = jsonDecode(response.body);
+    int value = dataRegister['value'];
+    String message = dataRegister['message'];
+    if (value==200) {
+      setState(() {
+        Navigator.pop(context);
+      });
+    } else {
+      print(message);
+    }
+  }
+          
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Create Account"),
+      ),
+      body: Form(
+        key: _key,
+        child: ListView(
+          padding: EdgeInsets.all(16),
+          children: <Widget>[
+            TextFormField(
+              validator: (e) {
+                if (e.isEmpty){
+                  return "Please insert your full name";
+                }
+              },
+              onSaved: (e)=>nama = e,
+              decoration: InputDecoration(
+                labelText: "Fullname"
+              ),
+            ),
+            TextFormField(
+              validator: (e) {
+                if (e.isEmpty){
+                  return "Please insert your username";
+                }
+              },
+              onSaved: (e)=>username = e,
+              decoration: InputDecoration(
+                labelText: "Username"
+              ),
+            ),
+            TextFormField(
+              validator: (e) {
+                if (e.isEmpty){
+                  return "Please insert your password";
+                }
+              },
+              onSaved: (e)=>password = e,
+              obscureText: _secureText,
+              decoration: InputDecoration(
+                labelText: "Password",
+                suffixIcon: IconButton(
+                  onPressed: showHide,
+                  icon: Icon(_secureText ? Icons.visibility_off : Icons.visibility),
+                ),
+              ),
+            ),
+            MaterialButton(
+              child: Text("Register"),
+              onPressed: (){
+                check();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -186,6 +304,21 @@ class _MainMenuState extends State<MainMenu> {
       widget.signOut();
     });
   }
+
+  String username = "", nama = "";
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      username = preferences.getString("username");
+      nama = preferences.getString("nama");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPref();
+  }
  
   @override
   Widget build(BuildContext context) {
@@ -202,7 +335,7 @@ class _MainMenuState extends State<MainMenu> {
         ],
       ),
       body: Center(
-        child: Text("Home"),
+        child: Text("Halo $nama, ($username)"),
       ),
     );
   }
