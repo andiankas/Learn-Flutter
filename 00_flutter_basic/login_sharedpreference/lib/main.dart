@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +49,7 @@ class _LoginState extends State<Login> {
   }
 
   login() async {
-    final response = await http.post("http://192.168.1.146/xdev/xlearn/flutter_login_sharedpreference/api/login.php", body: {
+    final response = await http.post("http://192.168.43.35/xdev/xlearn/flutter_login_sharedpreference/api/login.php", body: {
       "username" : username,
       "password" : password
     });
@@ -88,6 +87,16 @@ class _LoginState extends State<Login> {
     setState(() {
       value = preferences.getInt("value");
       _loginStatus = value == 200 ? LoginStatus.signIn : LoginStatus.notSignIn;
+    });
+  }
+
+  // signout
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", null);
+      preferences.commit();
+      _loginStatus = LoginStatus.notSignIn;
     });
   }
 
@@ -144,27 +153,53 @@ class _LoginState extends State<Login> {
                     print("login");
                   },
                 ),
+                Padding(padding: const EdgeInsets.all(20)),
+                InkWell(
+                  child: Text("Create a new account", textAlign: TextAlign.center,),
+                  onTap: (){},
+                ),
               ],
             ),
           ),
         );
         break;
       case LoginStatus.signIn:
-        return MainMenu();
+        return MainMenu(signOut);
         break;
     }
     
   }
 }
 
-class MainMenu extends StatelessWidget {
-  const MainMenu({Key key}) : super(key: key);
+class MainMenu extends StatefulWidget {
+  
+  final VoidCallback signOut;
+  MainMenu(this.signOut);
+  // MainMenu({Key key}) : super(key: key);
+  _MainMenuState createState() => _MainMenuState();
+}
 
+class _MainMenuState extends State<MainMenu> {
+
+  signOut(){
+    setState(() {
+      widget.signOut();
+    });
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: (){
+              signOut();
+            },
+            icon: Icon(Icons.exit_to_app),
+          ),
+        ],
       ),
       body: Center(
         child: Text("Home"),
