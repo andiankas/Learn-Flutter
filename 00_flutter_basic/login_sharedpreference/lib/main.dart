@@ -22,6 +22,14 @@ class _LoginState extends State<Login> {
   String username,password;
   final _key = new GlobalKey<FormState>();
 
+  bool _secureText = true;
+
+  showHide(){
+    setState(() {
+      _secureText = !_secureText;
+    });
+  }
+
   // check or validation form login
   check(){
     final form = _key.currentState;
@@ -70,9 +78,13 @@ class _LoginState extends State<Login> {
                  }
                },
                onSaved: (e)=>password = e,
-               obscureText: true,
+               obscureText: _secureText,
                decoration: InputDecoration(
-                 labelText: "Password"
+                 labelText: "Password",
+                 suffixIcon: IconButton(
+                   onPressed: showHide,
+                   icon: Icon(_secureText ? Icons.visibility_off : Icons.visibility),
+                 ),
                ),
              ),
              MaterialButton(
