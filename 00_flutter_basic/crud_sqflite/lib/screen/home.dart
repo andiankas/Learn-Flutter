@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'note_page.dart';
+
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
 
@@ -13,21 +15,26 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
-          color: Colors.white
+          color: Colors.blue[900]
         ),
-        backgroundColor: Colors.black,
-        onPressed: (){},
+        backgroundColor: Colors.blue,
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => NotePage(null,true))
+        ),
       ),
        appBar: AppBar(
          leading: Container(
            padding: EdgeInsets.all(10),
-           child: Image.asset("img/logo.jpg"),
+           child: Image.asset("img/logo-book.png"),
          ),
-         title: Text("Simple Note", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w300,),),
-         backgroundColor: Colors.black,
+         title: Text("Simple Note", style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.w800,),),
+         backgroundColor: Colors.blue,
        ),
        backgroundColor: Colors.grey[300],
-       body: Container(),
+       body: Column(
+         
+       ),
     );
   }
 }
+

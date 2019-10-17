@@ -1,3 +1,4 @@
+import 'package:crud_sqflite/model/mynote_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,4 +28,12 @@ class DBHelper{
     await db.execute("CREATE TABLE mynote (id INTEGER PRIMARY KEY, title TEXT, note TEXT, createdAt TEXT, updatedAt TEXT, sortDate TEXT)");
     print("DB CREATED");
   }
+
+  // insert data
+  Future<int> saveNote(MyNote mynote) async {
+    var dbClient = await db;
+    int res = await dbClient.insert("mynote", mynote.toMap());
+    print("Data Inserted");
+    return res;
+  } 
 }
