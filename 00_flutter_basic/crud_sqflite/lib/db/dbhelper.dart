@@ -36,4 +36,17 @@ class DBHelper{
     print("Data Inserted");
     return res;
   } 
+
+  // read data
+  Future<List<MyNote>> getNote() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM mynote");
+    List<MyNote> notedata = new List();
+    for (var i = 0; i < list.length; i++){
+      var note = new MyNote(list[i]['title'], list[i]['note'], list[i]['createdAt'], list[i]['updatedAt'], list[i]['sortDate']);
+      note.setNoteId(list[i]['id']);
+      notedata.add(note);
+    }
+    return notedata;  
+  }
 }

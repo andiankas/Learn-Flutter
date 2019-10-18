@@ -1,5 +1,7 @@
+import 'package:crud_sqflite/db/dbhelper.dart';
 import 'package:flutter/material.dart';
 
+import 'note_list.dart';
 import 'note_page.dart';
 
 class Home extends StatefulWidget {
@@ -9,6 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  var db = new DBHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +36,13 @@ class _HomeState extends State<Home> {
          backgroundColor: Colors.blue,
        ),
        backgroundColor: Colors.grey[300],
-       body: Column(
-         
+       body: FutureBuilder(
+         future: db.getNote(),
+         builder: (context,snapshot){
+           if (snapshot.hasError) print(snapshot.error);
+           var data = snapshot.data;
+           return snapshot.hasData ? NoteList(data) : Center(child: Text("No Data"),);
+         },
        ),
     );
   }
