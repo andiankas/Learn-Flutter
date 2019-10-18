@@ -13,37 +13,56 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-  
   String title;
-  bool btnSave;
-  bool btnEdit;
-  bool btnDelete;
+  bool btnSave = false;
+  bool btnEdit = true;
+  bool btnDelete = true;
+  bool _enabledTextField = true;
   MyNote myNote;
+  String createDate;
   final controllerTitle = TextEditingController();
   final controllerNote = TextEditingController();
 
-  void _saveData(){
+  void _saveData() {
     if (widget._isNew) {
       addRecord();
-    }else{
+    } else {
       updateRecord();
     }
     Navigator.of(context).pop();
   }
 
+  void _editData() {
+    setState(() {
+      _enabledTextField = true;
+      btnEdit = false;
+      btnSave = true;
+      btnDelete = true;
+      title = "Edit Note";
+    });
+  }
+
   var now = DateTime.now();
-  bool _enabledTextField = true;
 
   Future addRecord() async {
     var db = DBHelper();
-    String dateNow = "${now.day}-${now.month}-${now.year}, ${now.hour}:${now.minute}:${now.second}";
-    var mynote = MyNote(controllerTitle.text, controllerNote.text, dateNow, dateNow, now.toString());
+    String dateNow =
+        "${now.day}-${now.month}-${now.year}, ${now.hour}:${now.minute}:${now.second}";
+    var mynote = MyNote(controllerTitle.text, controllerNote.text, dateNow,
+        dateNow, now.toString());
     await db.saveNote(mynote);
     print("saved");
   }
 
   Future updateRecord() async {
-    
+    var db = DBHelper();
+    String dateNow =
+        "${now.day}-${now.month}-${now.year}, ${now.hour}:${now.minute}:${now.second}";
+    var mynote = MyNote(controllerTitle.text, controllerNote.text, createDate,
+        dateNow, now.toString());
+    mynote.setNoteId(this.myNote.id);
+    await db.UpdateNote(mynote);
+    print("update");
   }
 
   @override
@@ -54,10 +73,11 @@ class _NotePageState extends State<NotePage> {
       controllerTitle.text = myNote.title;
       controllerNote.text = myNote.note;
       title = "My Note";
-
+      _enabledTextField = false;
+      createDate = myNote.createdAt;
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     if (widget._isNew) {
@@ -65,11 +85,6 @@ class _NotePageState extends State<NotePage> {
       btnSave = true;
       btnEdit = false;
       btnDelete = false;
-    }else{
-      btnSave = false;
-      btnEdit = true;
-      btnDelete = true;
-      _enabledTextField = false;
     }
 
     return Scaffold(
@@ -91,62 +106,62 @@ class _NotePageState extends State<NotePage> {
         ],
       ),
       backgroundColor: Colors.grey[100],
-      body: Column(
-        
-        children: <Widget>[
-          Padding(padding: EdgeInsets.only(top: 20),),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              CreateButton(
-                icon: Icons.save,
-                enable: btnSave,
-                onpress: _saveData,
-              ),
-              CreateButton(
-                icon: Icons.edit,
-                enable: btnEdit,
-                onpress: () {},
-              ),
-              CreateButton(
-                icon: Icons.delete,
-                enable: btnDelete,
-                onpress: () {},
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
-            child: TextFormField(
-              enabled : _enabledTextField,
-              controller: controllerTitle,
-              decoration: InputDecoration(
-                hintText: "Title",
-                labelText: "Title",
-                border: InputBorder.none
-              ),
-              style: TextStyle(fontSize: 20, color: Colors.grey[700]),
-              maxLines: null,
-              keyboardType: TextInputType.text
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 20),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20,right: 20),
-            child: TextFormField(
-              enabled : _enabledTextField,
-              controller: controllerNote,
-              decoration: InputDecoration(
-                hintText: "...",
-                labelText: "Note",
-                border: InputBorder.none
-              ),
-              style: TextStyle(fontSize: 20, color: Colors.grey[700]),
-              maxLines: null,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.newline,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                CreateButton(
+                  icon: Icons.save,
+                  enable: btnSave,
+                  onpress: _saveData,
+                ),
+                CreateButton(
+                  icon: Icons.edit,
+                  enable: btnEdit,
+                  onpress: _editData,
+                ),
+                CreateButton(
+                  icon: Icons.delete,
+                  enable: btnDelete,
+                  onpress: () {},
+                ),
+              ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: TextFormField(
+                  enabled: _enabledTextField,
+                  controller: controllerTitle,
+                  decoration: InputDecoration(
+                      hintText: "Title",
+                      labelText: "Title",
+                      border: InputBorder.none),
+                  style: TextStyle(fontSize: 20, color: Colors.grey[700]),
+                  maxLines: null,
+                  keyboardType: TextInputType.text),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: TextFormField(
+                enabled: _enabledTextField,
+                controller: controllerNote,
+                decoration: InputDecoration(
+                    hintText: "...",
+                    labelText: "Note",
+                    border: InputBorder.none),
+                style: TextStyle(fontSize: 20, color: Colors.grey[700]),
+                maxLines: null,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.newline,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

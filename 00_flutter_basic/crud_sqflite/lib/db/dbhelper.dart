@@ -49,4 +49,11 @@ class DBHelper{
     }
     return notedata;  
   }
+
+  // update data
+  Future<bool> UpdateNote (MyNote mynote) async {
+    var dbClient = await db;
+    int res = await dbClient.update("mynote", mynote.toMap(), where: "id=?", whereArgs: <int>[mynote.id]);
+    return res > 0 ? true : false;
+  }
 }
