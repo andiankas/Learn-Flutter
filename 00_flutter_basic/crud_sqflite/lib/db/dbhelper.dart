@@ -56,4 +56,11 @@ class DBHelper{
     int res = await dbClient.update("mynote", mynote.toMap(), where: "id=?", whereArgs: <int>[mynote.id]);
     return res > 0 ? true : false;
   }
+
+  // delete data
+  Future<int> deleteNote(MyNote mynote) async {
+    var dbClient = await db;
+    int res = await dbClient.rawDelete("DELETE FROM mynote WHERE id = ?",[mynote.id]);
+    return res; 
+  }
 }

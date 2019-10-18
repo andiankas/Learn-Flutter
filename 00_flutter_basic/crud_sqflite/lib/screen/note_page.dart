@@ -20,6 +20,7 @@ class _NotePageState extends State<NotePage> {
   bool _enabledTextField = true;
   MyNote myNote;
   String createDate;
+  var now = DateTime.now();
   final controllerTitle = TextEditingController();
   final controllerNote = TextEditingController();
 
@@ -42,8 +43,6 @@ class _NotePageState extends State<NotePage> {
     });
   }
 
-  var now = DateTime.now();
-
   Future addRecord() async {
     var db = DBHelper();
     String dateNow =
@@ -63,6 +62,36 @@ class _NotePageState extends State<NotePage> {
     mynote.setNoteId(this.myNote.id);
     await db.UpdateNote(mynote);
     print("update");
+  }
+
+  void _confirmDelete() {
+    AlertDialog alertDialog = AlertDialog(
+      content: Text("Are you sure ?", style: TextStyle(fontSize: 20),),
+      actions: <Widget>[
+        RaisedButton(
+          color: Colors.red,
+          child: Text("Oke, Delete"),
+          onPressed: (){
+            Navigator.pop(context);
+            delete(myNote);
+            Navigator.pop(context);
+          },
+        ),
+        RaisedButton(
+          color: Colors.yellow,
+          child: Text("Cancel"),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+    showDialog(context: context, child: alertDialog);
+  }
+
+  void delete(MyNote myNote){
+    var db = DBHelper();
+    db.deleteNote(myNote);
   }
 
   @override
@@ -128,7 +157,7 @@ class _NotePageState extends State<NotePage> {
                 CreateButton(
                   icon: Icons.delete,
                   enable: btnDelete,
-                  onpress: () {},
+                  onpress: _confirmDelete,
                 ),
               ],
             ),
