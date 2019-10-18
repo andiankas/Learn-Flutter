@@ -40,7 +40,7 @@ class DBHelper{
   // read data
   Future<List<MyNote>> getNote() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery("SELECT * FROM mynote");
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM mynote ORDER BY sortdate DESC");
     List<MyNote> notedata = new List();
     for (var i = 0; i < list.length; i++){
       var note = new MyNote(list[i]['title'], list[i]['note'], list[i]['createdAt'], list[i]['updatedAt'], list[i]['sortDate']);

@@ -18,6 +18,7 @@ class _NotePageState extends State<NotePage> {
   bool btnSave;
   bool btnEdit;
   bool btnDelete;
+  MyNote myNote;
   final controllerTitle = TextEditingController();
   final controllerNote = TextEditingController();
 
@@ -31,6 +32,7 @@ class _NotePageState extends State<NotePage> {
   }
 
   var now = DateTime.now();
+  bool _enabledTextField = true;
 
   Future addRecord() async {
     var db = DBHelper();
@@ -43,6 +45,18 @@ class _NotePageState extends State<NotePage> {
   Future updateRecord() async {
     
   }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget._mynote != null) {
+      myNote = widget._mynote;
+      controllerTitle.text = myNote.title;
+      controllerNote.text = myNote.note;
+      title = "My Note";
+
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -51,6 +65,11 @@ class _NotePageState extends State<NotePage> {
       btnSave = true;
       btnEdit = false;
       btnDelete = false;
+    }else{
+      btnSave = false;
+      btnEdit = true;
+      btnDelete = true;
+      _enabledTextField = false;
     }
 
     return Scaffold(
@@ -99,6 +118,7 @@ class _NotePageState extends State<NotePage> {
           Padding(
             padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
             child: TextFormField(
+              enabled : _enabledTextField,
               controller: controllerTitle,
               decoration: InputDecoration(
                 hintText: "Title",
@@ -113,6 +133,7 @@ class _NotePageState extends State<NotePage> {
           Padding(
             padding: const EdgeInsets.only(left: 20,right: 20),
             child: TextFormField(
+              enabled : _enabledTextField,
               controller: controllerNote,
               decoration: InputDecoration(
                 hintText: "...",
