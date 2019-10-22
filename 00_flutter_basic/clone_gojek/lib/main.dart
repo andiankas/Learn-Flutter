@@ -1,8 +1,8 @@
-import 'package:clone_gojek/screen/account.dart';
-import 'package:clone_gojek/screen/chat.dart';
-import 'package:clone_gojek/screen/home.dart';
-import 'package:clone_gojek/screen/inbox.dart';
-import 'package:clone_gojek/screen/order.dart';
+import 'package:clone_gojek/pages/account.dart';
+import 'package:clone_gojek/pages/chat.dart';
+import 'package:clone_gojek/pages/home.dart';
+import 'package:clone_gojek/pages/inbox.dart';
+import 'package:clone_gojek/pages/order.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -66,39 +66,59 @@ class _RoutesNavigationState extends State<RoutesNavigation> {
         onTap: _onTabItem,
         items: [
           BottomNavigationBarItem(
-            icon: Padding(
+            title: Text("Home"),
+            activeIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image.asset("img/home.png", scale: 2.5,),
             ),
-            title: Text("Home"),
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Image.asset("img/home-non.png", scale: 2.5,),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Padding(
+            title: Text("Order"),
+            activeIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image.asset("img/orders.png", scale: 2.5,),
             ),
-            title: Text("Order"),
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Image.asset("img/orders-non.png", scale: 2.5,),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Padding(
+            title: Text("Chat"),
+            activeIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image.asset("img/chat.png", scale: 2.5,),
             ),
-            title: Text("Chat"),
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Image.asset("img/chat-non.png", scale: 2.5,),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Padding(
+            title: Text("Inbox"),
+            activeIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image.asset("img/inbox.png", scale: 2.5,),
             ),
-            title: Text("Inbox"),
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Image.asset("img/inbox-non.png", scale: 2.5,),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Padding(
+            title: Text("Account"),
+            activeIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image.asset("img/account.png", scale: 2.5,),
             ),
-            title: Text("Account"),
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Image.asset("img/account-non.png", scale: 2.5,),
+            ),
           ),
         ]
       ),
