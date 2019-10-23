@@ -284,16 +284,73 @@ class Promo extends StatelessWidget {
                   ),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("%",
-                        style: TextStyle(color: Colors.white, fontSize: 24)),
-                    Text("Lihat Semua \nPromo",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500)),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red[300],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.elliptical(20, 20),
+                          bottomRight: Radius.elliptical(150, 150),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("%",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 35)),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, bottom: 8),
+                      child: Text("Lihat Semua \nPromo",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500)
+                      ),
+                    ),
                   ],
                 ),
+              ),
+              Container(
+                child: null,
+                height: 150,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: AssetImage("images/promo-bri.jpeg"),
+                  ),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+              ),
+              Container(
+                child: null,
+                height: 150,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: AssetImage("images/promo-750.jpeg"),
+                  ),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 5),
+              ),
+              Container(
+                child: null,
+                height: 150,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: AssetImage("images/promo-200.jpeg"),
+                  ),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 5),
               ),
             ],
           ),
