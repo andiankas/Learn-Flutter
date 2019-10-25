@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "f_01_HelloWorld",
       home: Scaffold(
         // scaffold sama hal nya dengan activity kalau di android native
         appBar: AppBar(
