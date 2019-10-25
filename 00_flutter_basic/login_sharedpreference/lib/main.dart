@@ -60,6 +60,7 @@ class _LoginState extends State<Login> {
     String namaAPI = dataLogin['nama'];
     String levelAPI = dataLogin['level'];
     String statusAPI = dataLogin['status'];
+
     if (value==200) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
@@ -120,55 +121,60 @@ class _LoginState extends State<Login> {
           appBar: AppBar(
             title: Text("Login Shared Preference"),
           ),
-          body: Form(
-            key: _key,
-              child: ListView(
-              padding: const EdgeInsets.all(20.0),
-              children: <Widget>[
-                TextFormField(
-                  validator: (e) {
-                    if (e.isEmpty){
-                      return "Please insert your username";
-                    }
-                  },
-                  onSaved: (e)=>username = e,
-                  decoration: InputDecoration(
-                    labelText: "Username"
-                  ),
-                ),
-                TextFormField(
-                  validator: (e) {
-                    if (e.isEmpty){
-                      return "Please insert your password";
-                    }
-                  },
-                  onSaved: (e)=>password = e,
-                  obscureText: _secureText,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    suffixIcon: IconButton(
-                      onPressed: showHide,
-                      icon: Icon(_secureText ? Icons.visibility_off : Icons.visibility),
+          body: Container(
+            Text("HAHAHAHA"),
+            child: Container(
+              child: Form(
+                key: _key,
+                  child: ListView(
+                  padding: const EdgeInsets.all(20.0),
+                  children: <Widget>[
+                    TextFormField(
+                      validator: (e) {
+                        if (e.isEmpty){
+                          return "Please insert your username";
+                        }
+                      },
+                      onSaved: (e)=>username = e,
+                      decoration: InputDecoration(
+                        labelText: "Username"
+                      ),
                     ),
-                  ),
+                    TextFormField(
+                      validator: (e) {
+                        if (e.isEmpty){
+                          return "Please insert your password";
+                        }
+                      },
+                      onSaved: (e)=>password = e,
+                      obscureText: _secureText,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        suffixIcon: IconButton(
+                          onPressed: showHide,
+                          icon: Icon(_secureText ? Icons.visibility_off : Icons.visibility),
+                        ),
+                      ),
+                    ),
+                    MaterialButton(
+                      child: Text("Login"),
+                      onPressed: (){
+                        check();
+                        print("login");
+                      },
+                    ),
+                    Padding(padding: const EdgeInsets.all(20)),
+                    InkWell(
+                      child: Text("Create a new account", textAlign: TextAlign.center,),
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Register()
+                        ));
+                      },
+                    ),
+                  ],
                 ),
-                MaterialButton(
-                  child: Text("Login"),
-                  onPressed: (){
-                    check();
-                    print("login");
-                  },
-                ),
-                Padding(padding: const EdgeInsets.all(20)),
-                InkWell(
-                  child: Text("Create a new account", textAlign: TextAlign.center,),
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Register()
-                    ));
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         );
