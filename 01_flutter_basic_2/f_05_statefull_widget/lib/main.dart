@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               Text(
                 number.toString(), // mengubah number int menjadi string
-                style: TextStyle(fontSize: 20 * number.toDouble()),
+                style: TextStyle(fontSize: 20 * number.toDouble()), // menambahkan ukuran text
               ),
               RaisedButton(
                 child: Text("Tambah"),
