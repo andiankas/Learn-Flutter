@@ -16,9 +16,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   
-void getLocation() async {
+  void getLocation() async {
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print("Latitude : "+position.latitude.toString());
     print("Longitude : "+position.longitude.toString());

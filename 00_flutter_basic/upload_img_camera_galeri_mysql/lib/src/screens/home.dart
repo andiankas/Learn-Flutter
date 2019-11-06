@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
     //  menangkap gambarnya
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length(); 
-    var uri = Uri.parse("http://192.168.43.35/xdev/xlearn/flutter_img_camera_gallery/upload.php");
+    var uri = Uri.parse("http://192.168.1.146/xdev/xlearn/flutter_img_camera_gallery/upload.php");
 
     var request = new http.MultipartRequest("POST", uri);
 
