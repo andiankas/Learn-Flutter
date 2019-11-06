@@ -34,11 +34,67 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PermissionStatus _status;
+  String textStatus = "Nyalakan LOCATION kamu";
+  @override
+  void initState() {
+    super.initState();
+    PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.locationWhenInUse)
+        .then(_updateStatus);
+  }
+
+  void _updateStatus(PermissionStatus status) {
+    if (status != _status) {
+      setState(() {
+        _status = status;
+      });
+    }
+  }
+
+  void _askPermission(){
+    PermissionHandler().requestPermissions([PermissionGroup.locationWhenInUse]).then(_onStatusRequested);
+  }
+
+  void _onStatusRequested(Map<PermissionGroup, PermissionStatus> statuses){
+    final status = statuses[PermissionGroup.locationWhenInUse];
+    if (status != PermissionStatus.granted) {
+      // PermissionHandler().openAppSettings();
+      setState(() {
+        textStatus = "Nyalakan LOCATION kamu";
+      });
+    } else {
+      // _updateStatus(status);
+      setState(() {
+        textStatus = "Location Ready";
+      });
+    }
+    // _updateStatus(status);   
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-       child: child,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Permission Handler"),
+        ),
+        body: Container(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text("$_status"),
+                Text("$textStatus"),
+                SizedBox(height: 80,),
+                RaisedButton(
+                  child: Text("Ask Permission"),
+                  onPressed: _askPermission,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
-
