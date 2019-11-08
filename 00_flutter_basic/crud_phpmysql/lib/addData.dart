@@ -15,7 +15,7 @@ class _AddDataState extends State<AddData> {
 
   // send data to api
   void addData(){
-    var url="http://192.168.43.35/xdev/xlearn/flutter_mystore/addData.php";
+    var url="http://192.168.1.146/xdev/xlearn/flutter_mystore/addData.php";
     http.post(url,body:{
       "itemcode" : controllerCode.text,
       "itemname" : controllerName.text,

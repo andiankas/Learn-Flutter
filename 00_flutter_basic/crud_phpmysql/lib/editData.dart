@@ -23,7 +23,7 @@ class _EditDataState extends State<EditData> {
   TextEditingController controllerStock;
 
   void editData(){
-    var url = "http://192.168.43.35/xdev/xlearn/flutter_mystore/editData.php";
+    var url = "http://192.168.1.146/xdev/xlearn/flutter_mystore/editData.php";
     http.post(url,body: {
       "id" : widget.list[widget.index]['id'],
       "itemcode" : controllerCode.text,

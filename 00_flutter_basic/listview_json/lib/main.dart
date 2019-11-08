@@ -6,20 +6,20 @@ import 'dart:convert';
 void main() {
   runApp(new MaterialApp(
     title: "ListView",
-    home: new Home(),
+    home: new MyApp(),
   ));
 }
 
-class Home extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _HomeState extends State<Home> {
+class _MyAppState extends State<MyApp> {
   List dataJSON;
   Future<String> ambilData() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
+        Uri.encodeFull("https://al-quran-8d642.firebaseio.com/data.json?print=pretty"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -40,15 +40,15 @@ class _HomeState extends State<Home> {
         itemCount: dataJSON == null ? 0 : dataJSON.length,
         itemBuilder: (context, i) {
           return new Container(
-            padding: new EdgeInsets.all(20.0),
+            // margin: new EdgeInsets.only(top: 10.0),
             child: new Card(
               child: new Container(
-                padding: new EdgeInsets.all(20.0),
+                padding: new EdgeInsets.all(10.0),
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text(dataJSON[i]['title'],style: new TextStyle(fontSize: 20.0, color: Colors.black)),
-                    new Text(dataJSON[i]['body'],style: new TextStyle(fontSize: 17.0, color: Colors.black54)),
+                    new Text(dataJSON[i]['nama'],style: new TextStyle(fontSize: 20.0, color: Colors.black)),
+                    new Text(dataJSON[i]['arti'],style: new TextStyle(fontSize: 17.0, color: Colors.black54)),
                   ],
                 )
               )

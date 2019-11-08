@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Future<List> getData() async {
     final response = await http
-        .get("http://192.168.43.35/xdev/xlearn/flutter_mystore/getdata.php");
+        .get("http://192.168.1.146/xdev/xlearn/flutter_mystore/getdata.php");
     return json.decode(response.body);
   }
 
