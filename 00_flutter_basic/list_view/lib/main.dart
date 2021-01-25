@@ -49,14 +49,12 @@ class ListFramework extends StatelessWidget {
             ),
             new Container(
               padding: new EdgeInsets.all(20.0),
-              child: new Center(
-                child: new Column(
+              child: new Column(
                   children: <Widget>[
                     new Text(title,style: new TextStyle(fontSize: 30.0)),
                     new Text("Deskripsi",style: new TextStyle(fontSize: 18.0))
                   ],
                 ),
-              ),
             )
           ],
         ),
